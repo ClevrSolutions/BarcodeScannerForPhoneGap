@@ -1,5 +1,15 @@
 /*global mxui, mx, dojo, cordova */
-!function(){"use strict";dojo.provide("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap"),dojo.declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap",mxui.widget._WidgetBase,{
+// !function(){"use strict";dojo.provide("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap"),dojo.declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap",mxui.widget._WidgetBase,{
+define([
+    "mxui/widget/_WidgetBase",
+    "mxui/dom",
+    "dojo/dom-class",
+    "dojo/_base/declare",
+    "dojo/html"
+], function(_WidgetBase, mxuiDom, dojoClass, declare, html) {
+    "use strict";
+
+    return declare("BarcodeScannerForPhoneGap.widget.BarcodeScannerForPhoneGap", _WidgetBase, {
 // Coding guideline, internal variables start with '_'.
 // internal variables.
 _wxnode:null,_hasStarted:!1,_obj:null,_trigger:null,
@@ -20,6 +30,12 @@ _setupEvents:function(){
 // Attach only one event to dropdown list.
 dojo.connect(this._trigger,"onclick",dojo.hitch(this,function(evt){
 // The barcode function has a success, failure and a reference to this.
-"undefined"!=typeof cordova?cordova.plugins.barcodeScanner.scan(dojo.hitch(this,this.barcodeSuccess),dojo.hitch(this,this.barcodeFailure)):mx.ui.error("Unable to detect camera.")}))},barcodeSuccess:function(output){0==output.cancelled&&output.text&&output.text.length>0&&(this._obj.set(this.attributeName,output.text),this._executeMicroflow())},barcodeFailure:function(error){var html="Scanning failed: "+error;dojo.create("div",{innerHTML:html},this._wxnode)},_executeMicroflow:function(){this.onchangemf&&this._obj&&mx.processor.xasAction({error:function(){},actionname:this.onchangemf,applyto:"selection",guids:[this._obj.getGuid()]})},_createChildnodes:function(){
-// Placeholder container
-"button"==this.triggerType?(this._trigger=mxui.dom.div(),dojo.addClass(this._trigger,"wx-mxwxbarcodescanner-button btn btn-primary"),dojo.html.set(this._trigger,this.buttonLabel||"Scan barcode."),this.domNode.appendChild(this._trigger)):this._trigger=this.domNode,this.triggerClass&&dojo.addClass(this._trigger,this.triggerClass)}})}();
+        "undefined" != typeof cordova ? cordova.plugins.barcodeScanner.scan(dojo.hitch(this, this.barcodeSuccess), dojo.hitch(this, this.barcodeFailure)) : mx.ui.error("Unable to detect camera.")
+    }))
+}, barcodeSuccess: function (output) { 0 == output.cancelled && output.text && output.text.length > 0 && (this._obj.set(this.attributeName, output.text), this._executeMicroflow()) }, barcodeFailure: function (error) { var html = "Scanning failed: " + error; dojo.create("div", { innerHTML: html }, this._wxnode) }, _executeMicroflow: function () { this.onchangemf && this._obj && mx.processor.xasAction({ error: function () { }, actionname: this.onchangemf, applyto: "selection", guids: [this._obj.getGuid()] }) }, _createChildnodes: function () {
+    // Placeholder container
+    "button" == this.triggerType ? (this._trigger = mxuiDom.create("div",{}), dojo.addClass(this._trigger, "wx-mxwxbarcodescanner-button btn btn-primary"), html.set(this._trigger, this.buttonLabel || "Scan barcode."), this.domNode.appendChild(this._trigger)) : this._trigger = this.domNode, this.triggerClass && dojo.addClass(this._trigger, this.triggerClass)
+}
+    })
+    });
+require(["BarcodeScannerForPhoneGap/widget/BarcodeScannerForPhoneGap"]);
