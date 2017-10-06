@@ -3,7 +3,7 @@
   "widgetName": "BarcodeScannerForPhoneGap",
   "version": "2.0.1",
   "description": "",
-  "copyright": "",
+  "copyright": "Mendix Bv",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
